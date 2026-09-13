@@ -1,43 +1,50 @@
-/* css/responsive.css */
-
-/* تنظیم فونت استاندارد و خوانا برای همه دستگاه‌ها */
+/* responsive.css */
 @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
 
 * {
-  font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: 'Vazirmatn', sans-serif !important;
   box-sizing: border-box;
 }
 
-/* بهینه‌سازی نمایش در گوشی‌های موبایل (صفحه‌نمایش زیر 768px) */
+/* بهینه‌سازی مخصوص صفحه‌نمایش‌های زیر 768px (موبایل) */
 @media screen and (max-width: 768px) {
   
-  /* ۱. هدر و لوگو */
-  .header {
-    padding: 0.5rem 1rem;
+  /* ۱. تنظیم هدر و چیدمان عناصر در یک خط */
+  header, .header {
+    padding: 10px 15px !important;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(15, 15, 26, 0.95) !important;
+    backdrop-filter: blur(8px);
   }
 
   .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
   }
 
-  /* ۲. منوی کشویی موبایل */
+  /* ۲. منوی همبرگری و لینک‌ها */
+  .menu-toggle {
+    display: block !important;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+  }
+
   .nav-links {
-    display: none;
-    flex-direction: column;
+    display: none; /* در حالت عادی مخفی */
+    flex-direction: column !important;
     position: absolute;
     top: 100%;
     right: 0;
     left: 0;
-    background: rgba(15, 15, 26, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    border-radius: 0 0 12px 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    background: #0f0f1a;
+    padding: 15px;
+    border-bottom: 2px solid #7000ff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
   }
 
   .nav-links.active {
@@ -45,40 +52,63 @@
   }
 
   .nav-links li {
-    margin: 0.5rem 0;
+    margin: 10px 0 !important;
     text-align: center;
   }
 
-  /* ۳. لایه بندی سبد خرید در موبایل (تک ستونه شدن) */
-  #cart-layout {
+  /* ۳. دکمه‌های اکشن هدر (سبد خرید و جستجو) */
+  .header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .cart-icon, .wishlist-icon {
+    font-size: 18px !important;
+    position: relative;
+  }
+
+  /* ۴. گرید محصولات در صفحه اصلی و فروشگاه (تک ستونه یا دو ستونه متناسب) */
+  .products-grid, #products-grid, #featured-products {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  .product-card {
+    padding: 10px !important;
+    border-radius: 10px !important;
+  }
+
+  .product-card img {
+    height: 130px !important;
+    object-fit: contain !important;
+  }
+
+  .product-card h3 {
+    font-size: 13px !important;
+    height: 36px;
+    overflow: hidden;
+  }
+
+  .product-card .price {
+    font-size: 12px !important;
+    font-weight: bold;
+  }
+
+  /* ۵. سبد خرید و فرم تسویه حساب در موبایل */
+  .cart-container, #cart-layout {
     grid-template-columns: 1fr !important;
-    gap: 1rem !important;
+    padding: 10px !important;
   }
 
-  /* ۴. کارت‌های آیتم‌های سبد خرید در موبایل */
-  #cart-items-container > div {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 1rem;
-    padding: 1rem 0;
+  /* ۶. بنر صفحه اصلی */
+  .hero-banner {
+    padding: 20px 10px !important;
+    text-align: center;
   }
 
-  #cart-items-container > div > div:last-child {
-    width: 100%;
-    justify-content: space-between;
-    border-top: 1px dashed var(--border-color);
-    padding-top: 0.8rem;
-  }
-
-  /* ۵. بهینه‌سازی اندازه‌گیری عکس‌ها در موبایل */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* ۶. جدول‌های پنل مدیریت و مقایسه در موبایل */
-  .glass-panel {
-    padding: 1rem !important;
-    overflow-x: auto;
+  .hero-banner h1 {
+    font-size: 20px !important;
   }
 }
