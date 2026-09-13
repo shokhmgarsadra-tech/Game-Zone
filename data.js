@@ -1,128 +1,248 @@
 // js/data.js
+const placeholderImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='100%' height='100%' fill='%2312121f'/><text x='50%' y='50%' font-family='sans-serif' font-size='18' fill='%237000ff' text-anchor='middle' dy='.3em'>GameZone Product</text></svg>";
+
 const initialProducts = [
-    {
-        id: 101,
-        name: "کنسول پلی استیشن 5 استاندارد",
-        category: "PS5",
-        brand: "Sony",
-        platform: "PS5",
-        price: 32500000,
-        discount: 5,
-        stock: 8,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=600&q=80",
-        description: "کنسول بازی پلی استیشن 5 همراه با حافظه SSD سفارشی فوق سریع و دسته DualSense.",
-        specifications: { "حافظه": "825GB SSD", "خروجی تصویر": "4K 120Hz", "وزن": "4.5kg" },
-        featured: true, bestseller: true, newest: false
-    },
-    {
-        id: 102,
-        name: "کنسول ایکس باکس سری ایکس",
-        category: "Xbox",
-        brand: "Microsoft",
-        platform: "Xbox",
-        price: 31000000,
-        discount: 0,
-        stock: 5,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?auto=format&fit=crop&w=600&q=80",
-        description: "قدرتمندترین کنسول بازی جهان با پردازش 12 ترافلاپس.",
-        specifications: { "حافظه": "1TB NVMe SSD", "پردازنده": "Zen 2 Custom", "کیفیت": "4K Native" },
-        featured: true, bestseller: true, newest: false
-    },
-    {
-        id: 103,
-        name: "دسته بازی بی‌سیم DualSense Edge",
-        category: "دسته و کنترلر",
-        brand: "Sony",
-        platform: "PS5",
-        price: 12800000,
-        discount: 10,
-        stock: 12,
-        rating: 4.7,
-        image: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?auto=format&fit=crop&w=600&q=80",
-        description: "کنترلر حرفه‌ای با دکمه‌های قابل تنظیم و پدال‌های پشتی.",
-        specifications: { "اتصال": "Wireless / USB-C", "شارژدهی": "6 ساعت", "وزن": "335g" },
-        featured: true, bestseller: false, newest: true
-    },
-    {
-        id: 104,
-        name: "هدست گیمینگ SteelSeries Arctis Nova Pro",
-        category: "هدست",
-        brand: "SteelSeries",
-        platform: "PC",
-        price: 18500000,
-        discount: 8,
-        stock: 4,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80",
-        description: "صداقت صوتی بی نظیر با سیستم نویز کنسلینگ فعال کامل.",
-        specifications: { "نوع": "Wireless 2.4G", "میکروفون": "ClearCast Gen 2", "وزن": "338g" },
-        featured: false, bestseller: true, newest: true
-    },
-    {
-        id: 105,
-        name: "کیبورد مکانیکال Razer Huntsman V2",
-        category: "کیبورد و موس",
-        brand: "Razer",
-        platform: "PC",
-        price: 9400000,
-        discount: 0,
-        stock: 15,
-        rating: 4.6,
-        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
-        description: "سریع‌ترین کیبورد اپتیکال جهان با نرخ نظرسنجی 8000Hz.",
-        specifications: { "سوییچ": "Optical Red Linear", "نورپردازی": "Razer Chroma RGB", "اتصال": "کابل بافته شده" },
-        featured: true, bestseller: false, newest: true
-    },
-    {
-        id: 106,
-        name: "موس گیمینگ Logitech G Pro X Superlight 2",
-        category: "کیبورد و موس",
-        brand: "Logitech",
-        platform: "PC",
-        price: 8200000,
-        discount: 12,
-        stock: 9,
-        rating: 4.9,
-        image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80",
-        description: "وزن فوق‌العاده سبک 60 گرمی همراه با سنسور Hero 2.",
-        specifications: { "حسگر": "HERO 2 32K DPI", "وزن": "60g", "شارژدهی": "95 ساعت" },
-        featured: false, bestseller: true, newest: true
-    },
-    {
-        id: 107,
-        name: "مانیتور گیمینگ ASUS ROG Swift 27 Inch 240Hz",
-        category: "لوازم جانبی",
-        brand: "ASUS",
-        platform: "PC",
-        price: 29500000,
-        discount: 15,
-        stock: 3,
-        rating: 4.8,
-        image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80",
-        description: "پنل OLED با زمان پاسخگویی 0.03 میلی‌ثانیه.",
-        specifications: { "پنل": "OLED 1440p", "رفرش ریت": "240Hz", "زمان پاسخ": "0.03ms" },
-        featured: true, bestseller: true, newest: false
-    },
-    {
-        id: 108,
-        name: "بازی God of War Ragnarok - PS5",
-        category: "PS5",
-        brand: "Sony",
-        platform: "PS5",
-        price: 2800000,
-        discount: 0,
-        stock: 20,
-        rating: 5.0,
-        image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=600&q=80",
-        description: "ادامه حماسه کراتوس و آترئوس در قلمرو اساطیر اسکاندیناوی.",
-        specifications: { "ژانر": "اکشن ماجراجویی", "زبان": "انگلیسی / زیرنویس", "رده سنی": "+18" },
-        featured: false, bestseller: true, newest: false
-    }
+  {
+    id: 1,
+    name: "کنسول پلی‌استیشن 5 استاندارد",
+    category: "PS5",
+    brand: "Sony",
+    price: 32500000,
+    stock: 8,
+    image: "p1.jpg",
+    specs: { "پردازنده": "AMD Zen 2", "حافظه": "825GB SSD", "کیفیت تصویر": "4K 120Hz" }
+  },
+  {
+    id: 2,
+    name: "کنسول ایکس‌باکس سری ایکس",
+    category: "Xbox",
+    brand: "Microsoft",
+    price: 30000000,
+    stock: 5,
+    image: "p2.jpg",
+    specs: { "پردازنده": "AMD Zen 2", "حافظه": "1TB SSD", "کیفیت تصویر": "4K 120Hz" }
+  },
+  {
+    id: 3,
+    name: "دسته بازی دوئل‌سنس PS5",
+    category: "لوازم جانبی",
+    brand: "Sony",
+    price: 4200000,
+    stock: 15,
+    image: "p3.jpg",
+    specs: { "نوع اتصال": "بی‌سیم", "بازخورد لمسی": "دارد", "باتری": "قابل شارژ" }
+  },
+  {
+    id: 4,
+    name: "هدست گیمینگ ریزر Kraken X",
+    category: "هدست",
+    brand: "Razer",
+    price: 2400000,
+    stock: 12,
+    image: "p4.jpg",
+    specs: { "صدای فراگیر": "7.1 Surround", "میکروفون": "دارد", "وزن": "250 گرم" }
+  },
+  {
+    id: 5,
+    name: "کیبورد مکانیکی ریزر BlackWidow V3",
+    category: "کیبورد و موس",
+    brand: "Razer",
+    price: 6800000,
+    stock: 6,
+    image: "p5.jpg",
+    specs: { "نوع سوییچ": "مکانیکی سبز", "نورپردازی": "RGB Chroma", "استراحتگاه مچ": "دارد" }
+  },
+  {
+    id: 6,
+    name: "موس گیمینگ لوجیتک G502 HERO",
+    category: "کیبورد و موس",
+    brand: "Logitech",
+    price: 3100000,
+    stock: 20,
+    image: "p6.jpg",
+    specs: { "حسگر": "HERO 25K", "دقت": "25600 DPI", "تعداد کلید": "11 کلید" }
+  },
+  {
+    id: 7,
+    name: "صندلی گیمینگ دی‌ایکس‌ریسر سری Prince",
+    category: "لوازم جانبی",
+    brand: "DXRacer",
+    price: 18500000,
+    stock: 4,
+    image: "p7.jpg",
+    specs: { "جنس روکش": "چرم مصنوعی", "قابلیت تنظیم تکیه‌گاه": "تا 135 درجه", "پایه": "فلزی" }
+  },
+  {
+    id: 8,
+    name: "مانیتور گیمینگ ایسوس TUF VG27AQ",
+    category: "لوازم جانبی",
+    brand: "Asus",
+    price: 19800000,
+    stock: 7,
+    image: "p8.jpg",
+    specs: { "اندازه صفحه": "27 اینچ", "نرخ به‌روزرسانی": "165Hz", "رزولوشن": "2K WQHD" }
+  },
+  {
+    id: 9,
+    name: "کنسول نینتندو سوییچ مدل OLED",
+    category: "لوازم جانبی",
+    brand: "Nintendo",
+    price: 17500000,
+    stock: 9,
+    image: placeholderImg,
+    specs: { "صفحه نمایش": "7 اینچ OLED", "حافظه داخلی": "64GB" }
+  },
+  {
+    id: 10,
+    name: "پایه شارژر دوئل‌سنس PS5",
+    category: "PS5",
+    brand: "Sony",
+    price: 1900000,
+    stock: 14,
+    image: placeholderImg,
+    specs: { "ظرفیت شارژ": "دو دسته همزمان", "قطع کن خودکار": "دارد" }
+  },
+  {
+    id: 11,
+    name: "بازی God of War Ragnarok نسخه PS5",
+    category: "PS5",
+    brand: "Sony",
+    price: 2900000,
+    stock: 18,
+    image: placeholderImg,
+    specs: { "سبک": "اکشن-ماجراجویی", "رده سنی": "+18" }
+  },
+  {
+    id: 12,
+    name: "بازی EA Sports FC 24 نسخه PS5",
+    category: "PS5",
+    brand: "EA Sports",
+    price: 3100000,
+    stock: 22,
+    image: placeholderImg,
+    specs: { "سبک": "ورزشی / فوتبال", "حالت آنلاین": "دارد" }
+  },
+  {
+    id: 13,
+    name: "فرمان بازی لوجیتک G29 Driving Force",
+    category: "لوازم جانبی",
+    brand: "Logitech",
+    price: 16200000,
+    stock: 3,
+    image: placeholderImg,
+    specs: { "زاویه چرخش": "900 درجه", "سازگاری": "PS5, PC" }
+  },
+  {
+    id: 14,
+    name: "میکروفون گیمینگ هایپرایکس QuadCast",
+    category: "لوازم جانبی",
+    brand: "HyperX",
+    price: 8400000,
+    stock: 5,
+    image: placeholderImg,
+    specs: { "الگوی قطبی": "4 الگوی ضبط", "نورپردازی": "RGB" }
+  },
+  {
+    id: 15,
+    name: "پد موس گیمینگ ریزر Goliathus Chroma",
+    category: "کیبورد و موس",
+    brand: "Razer",
+    price: 2300000,
+    stock: 11,
+    image: placeholderImg,
+    specs: { "ابعاد": "سایز بزرگ XL", "نورپردازی": "RGB" }
+  },
+  {
+    id: 16,
+    name: "هدست بی‌سیم استیل‌سریزی Arctis Nova 7",
+    category: "هدست",
+    brand: "SteelSeries",
+    price: 11500000,
+    stock: 4,
+    image: placeholderImg,
+    specs: { "اتصال": "Wireless", "شارژدهی": "38 ساعت" }
+  },
+  {
+    id: 17,
+    name: "کارت گرافیک ایسوس ROG Strix RTX 4080",
+    category: "لوازم جانبی",
+    brand: "Asus",
+    price: 78000000,
+    stock: 2,
+    image: placeholderImg,
+    specs: { "حافظه": "16GB GDDR6X" }
+  },
+  {
+    id: 18,
+    name: "خنک‌کننده پردازنده کورسیر iCUE H150i",
+    category: "لوازم جانبی",
+    brand: "Corsair",
+    price: 12400000,
+    stock: 6,
+    image: placeholderImg,
+    specs: { "نوع": "مایع (AIO)" }
+  },
+  {
+    id: 19,
+    name: "دسته بازی ایکس‌باکس سریز Elite 2",
+    category: "Xbox",
+    brand: "Microsoft",
+    price: 8900000,
+    stock: 7,
+    image: placeholderImg,
+    specs: { "شارژدهی": "40 ساعت" }
+  },
+  {
+    id: 20,
+    name: "عینک واقعیت مجازی PlayStation VR2",
+    category: "PS5",
+    brand: "Sony",
+    price: 29500000,
+    stock: 3,
+    image: placeholderImg,
+    specs: { "صفحه نمایش": "OLED 4K HDR" }
+  },
+  {
+    id: 21,
+    name: "حافظه اس‌اس‌دی سامسونگ 990 PRO 2TB",
+    category: "لوازم جانبی",
+    brand: "Samsung",
+    price: 10800000,
+    stock: 10,
+    image: placeholderImg,
+    specs: { "ظرفیت": "2 ترابایت" }
+  },
+  {
+    id: 22,
+    name: "وب‌کم لوجیتک Brio 4K",
+    category: "لوازم جانبی",
+    brand: "Logitech",
+    price: 9200000,
+    stock: 5,
+    image: placeholderImg,
+    specs: { "رزولوشن": "4K Ultra HD" }
+  },
+  {
+    id: 23,
+    name: "کیس گیمینگ گرین Z7 GRIFFIN",
+    category: "لوازم جانبی",
+    brand: "Green",
+    price: 5400000,
+    stock: 8,
+    image: placeholderImg,
+    specs: { "پنل شیشه‌ای": "حرارت دیده" }
+  },
+  {
+    id: 24,
+    name: "پاور گرافیك کورسیر RM1000x",
+    category: "لوازم جانبی",
+    brand: "Corsair",
+    price: 11200000,
+    stock: 4,
+    image: placeholderImg,
+    specs: { "توان مصرفی": "1000 وات" }
+  }
 ];
 
-// بارگذاری یا مقداردهی اولیه LocalStorage
-if (!localStorage.getItem("gz_products")) {
-    localStorage.setItem("gz_products", JSON.stringify(initialProducts));
-}
+// بروزرسانی دیتابیس در مرورگرها
+localStorage.setItem('gz_products', JSON.stringify(initialProducts));
