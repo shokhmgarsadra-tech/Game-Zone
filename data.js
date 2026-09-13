@@ -1,6 +1,4 @@
 // js/data.js
-const placeholderImg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='100%' height='100%' fill='%2312121f'/><text x='50%' y='50%' font-family='sans-serif' font-size='18' fill='%237000ff' text-anchor='middle' dy='.3em'>GameZone Product</text></svg>";
-
 const initialProducts = [
   {
     id: 1,
@@ -81,8 +79,8 @@ const initialProducts = [
     stock: 7,
     image: "p8.jpg",
     specs: { "اندازه صفحه": "27 اینچ", "نرخ به‌روزرسانی": "165Hz", "رزولوشن": "2K WQHD" }
-  },
+  }
 ];
 
-// بروزرسانی دیتابیس در مرورگرها
+// همگام‌سازی و اعمال دیتای جدید ۸ محصول در LocalStorage
 localStorage.setItem('gz_products', JSON.stringify(initialProducts));
