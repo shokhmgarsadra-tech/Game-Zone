@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | علاقه‌مندی‌ها</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🎮 Game<span>Zone</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="shop.html">فروشگاه</a></li>
+                <li><a href="compare.html">مقایسه تجهیزات</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+                <a href="wishlist.html" class="icon-btn">❤️ <span id="wishlist-badge" class="badge">0</span></a>
+                <a href="cart.html" class="icon-btn">🛒 <span id="cart-badge" class="badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem;">
+        <h2>❤️ محصولات مورد علاقه</h2>
+        <div id="wishlist-grid" class="product-grid" style="margin-top: 1.5rem;"></div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const products = JSON.parse(localStorage.getItem('gz_products')) || [];
+            const favProducts = products.filter(p => app.wishlist.includes(p.id));
+            const grid = document.getElementById('wishlist-grid');
+
+            if (favProducts.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">هیچ محصولی در لیست علاقه‌مندی‌ها قرار ندارد.</p>';
+                return;
+            }
+
+            grid.innerHTML = favProducts.map(p => `
+        <div class="product-card">
+          <img src="${p.image}" alt="${p.name}" class="product-img">
+          <h3 class="product-title">${p.name}</h3>
+          <div class="price-box">
+            <span class="current-price">${app.formatPrice(p.price)}</span>
+          </div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <button onclick="app.addToCart(${p.id})" class="btn btn-primary" style="flex: 1; justify-content: center;">انتقال به سبد</button>
+            <button onclick="app.toggleWishlist(${p.id}); location.reload();" class="btn btn-outline">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | مقایسه تجهیزات</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🎮 Game<span>Zone</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="shop.html">فروشگاه</a></li>
+                <li><a href="compare.html" class="active">مقایسه تجهیزات</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+                <a href="wishlist.html" class="icon-btn">❤️ <span id="wishlist-badge" class="badge">0</span></a>
+                <a href="cart.html" class="icon-btn">🛒 <span id="cart-badge" class="badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem;">
+        <h2>⚖️ مقایسه تخصصی محصولات</h2>
+        <div class="glass-panel" style="padding: 1.5rem; margin-top: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                    <label>محصول اول:</label>
+                    <select id="prod1-select"
+                        style="width: 100%; padding: 0.6rem; margin-top: 0.5rem; border-radius: 6px; background: var(--bg-primary); color: var(--text-main); border: 1px solid var(--border-color);"></select>
+                </div>
+                <div>
+                    <label>محصول دوم:</label>
+                    <select id="prod2-select"
+                        style="width: 100%; padding: 0.6rem; margin-top: 0.5rem; border-radius: 6px; background: var(--bg-primary); color: var(--text-main); border: 1px solid var(--border-color);"></select>
+                </div>
+            </div>
+            <div id="compare-table"></div>
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/compare.js"></script>
+</body>
+
+</html>

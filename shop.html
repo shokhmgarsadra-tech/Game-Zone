@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | فروشگاه</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🎮 Game<span>Zone</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="shop.html" class="active">فروشگاه</a></li>
+                <li><a href="compare.html">مقایسه تجهیزات</a></li>
+                <li><a href="#" onclick="openAdminPanel(event)">ورود به پنل مدیریت</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+                <a href="wishlist.html" class="icon-btn">❤️ <span id="wishlist-badge" class="badge">0</span></a>
+                <a href="cart.html" class="icon-btn">🛒 <span id="cart-badge" class="badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section
+        style="max-width: 1300px; margin: 2rem auto; padding: 0 1rem; display: grid; grid-template-columns: 280px 1fr; gap: 2rem;">
+        <!-- Sidebar Filters -->
+        <aside class="glass-panel" style="padding: 1.5rem; height: fit-content;">
+            <h3>فیلتر محصولات</h3>
+            <div style="margin: 1.5rem 0;">
+                <label>جستجو:</label>
+                <input type="text" id="search-input" placeholder="نام محصول یا برند..."
+                    style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-main);">
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>دسته‌بندی:</label>
+                <select id="category-filter"
+                    style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; border-radius: 6px; background: var(--bg-primary); color: var(--text-main);">
+                    <option value="ALL">همه دسته‌ها</option>
+                    <option value="PS5">PS5</option>
+                    <option value="Xbox">Xbox</option>
+                    <option value="کیبورد و موس">کیبورد و موس</option>
+                    <option value="هدست">هدست</option>
+                </select>
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <label>مرتب‌سازی:</label>
+                <select id="sort-order"
+                    style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; border-radius: 6px; background: var(--bg-primary); color: var(--text-main);">
+                    <option value="newest">جدیدترین</option>
+                    <option value="price-asc">ارزان‌ترین</option>
+                    <option value="price-desc">گران‌ترین</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Main Products Section -->
+        <main>
+            <div id="shop-grid" class="product-grid" style="margin-top: 0;"></div>
+        </main>
+    </section>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/shop.js"></script>
+</body>
+
+</html>

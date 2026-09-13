@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | سبد خرید</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🎮 Game<span>Zone</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">خانه</a></li>
+                <li><a href="shop.html">فروشگاه</a></li>
+                <li><a href="compare.html">مقایسه تجهیزات</a></li>
+                <li><a href="#" onclick="openAdminPanel(event)">ورود به پنل مدیریت</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+                <a href="wishlist.html" class="icon-btn">❤️ <span id="wishlist-badge" class="badge">0</span></a>
+                <a href="cart.html" class="icon-btn active">🛒 <span id="cart-badge" class="badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main style="max-width: 1100px; margin: 2rem auto; padding: 1rem;">
+        <h2>🛒 سبد خرید شما</h2>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-top: 1.5rem;" id="cart-layout">
+            <!-- لیست آیتم‌های سبد خرید -->
+            <div class="glass-panel" style="padding: 1.5rem;">
+                <div id="cart-items-container"></div>
+            </div>
+
+            <!-- فرم اطلاعات ارسال و ثبت نهایی -->
+            <div class="glass-panel" style="padding: 1.5rem; height: fit-content;">
+                <h3>خلاصه سفارش و اطلاعات ارسال</h3>
+                <hr style="border-color: var(--border-color); margin: 1rem 0;">
+
+                <!-- کادر هشدار قرمز -->
+                <div
+                    style="background-color: rgba(255, 77, 77, 0.15); border: 1.5px solid #ff4d4d; color: #ff4d4d; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 1.2rem; font-size: 0.85rem; font-weight: bold; text-align: center; line-height: 1.6;">
+                    ⚠️ توجه: در صورت اشتباه وارد کردن اطلاعات عواقب آن بر عهده خودتان میباشد!
+                </div>
+
+                <form id="checkout-form" onsubmit="handleCheckout(event)" novalidate>
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="font-size: 0.85rem;">شماره تماس (ضروری):</label>
+                        <input type="tel" id="checkout-phone" class="modal-input" style="margin-top: 4px;"
+                            placeholder="مثال: 09123456789">
+                    </div>
+
+                    <div style="margin-bottom: 0.8rem;">
+                        <label style="font-size: 0.85rem;">کد پستی (۱۰ رقمی):</label>
+                        <input type="text" id="checkout-postal" class="modal-input" style="margin-top: 4px;"
+                            placeholder="مثال: 1234567890">
+                    </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.85rem;">آدرس دقیق پستی:</label>
+                        <textarea id="checkout-address" class="modal-input"
+                            style="margin-top: 4px; height: 80px; resize: vertical;"
+                            placeholder="استان، شهر، خیابان، پلاک، واحد..."></textarea>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold;">
+                        <span>مبلغ قابل پرداخت:</span>
+                        <span id="cart-total-price" style="color: var(--accent-neon);">۰ تومان</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">ثبت
+                        نهایی و پرداخت</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const totalPriceEl = document.getElementById('cart-total-price');
+
+            if (app.cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">سبد خرید شما خالی است.</p>';
+                totalPriceEl.innerText = '۰ تومان';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = app.cart.map(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                return `
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <img src="${item.image}" width="60" height="60" style="object-fit: contain; border-radius: 6px;">
+              <div>
+                <h4 style="margin: 0 0 0.5rem 0;">${item.name}</h4>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">${app.formatPrice(item.price)}</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button onclick="changeQty(${item.id}, -1)" class="btn btn-outline" style="padding: 2px 8px;">-</button>
+                <span>${item.qty}</span>
+                <button onclick="changeQty(${item.id}, 1)" class="btn btn-outline" style="padding: 2px 8px;">+</button>
+              </div>
+              <span style="font-weight: bold; min-width: 100px; text-align: left;">${app.formatPrice(itemTotal)}</span>
+              <button onclick="removeItem(${item.id})" class="btn" style="background: var(--accent-danger); color: #fff; padding: 4px 8px;">🗑️</button>
+            </div>
+          </div>
+        `;
+            }).join('');
+
+            totalPriceEl.innerText = app.formatPrice(total);
+        }
+
+        function changeQty(id, delta) {
+            const item = app.cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    app.removeFromCart(id);
+                } else {
+                    app.saveCart();
+                }
+                renderCart();
+            }
+        }
+
+        function removeItem(id) {
+            app.removeFromCart(id);
+            renderCart();
+        }
+
+        function handleCheckout(e) {
+            e.preventDefault();
+            if (app.cart.length === 0) {
+                app.showToast('سبد خرید شما خالی است!', 'error');
+                return;
+            }
+
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const postal = document.getElementById('checkout-postal').value.trim();
+            const address = document.getElementById('checkout-address').value.trim();
+
+            if (!phone || !postal || !address) {
+                app.showToast('فیلد خالی نذارید', 'error');
+                return;
+            }
+
+            const orderId = `ORD-${phone}-${Date.now().toString().slice(-4)}`;
+            const totalPrice = app.cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+            const newOrder = {
+                id: orderId,
+                phone: phone,
+                postalCode: postal,
+                address: address,
+                items: [...app.cart],
+                totalPrice: totalPrice,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+
+            const orders = JSON.parse(localStorage.getItem('gz_orders')) || [];
+            orders.unshift(newOrder);
+            localStorage.setItem('gz_orders', JSON.stringify(orders));
+
+            app.cart = [];
+            app.saveCart();
+
+            alert(`سفارش شما با موفقیت ثبت شد!\nکد سفارش شما: ${orderId}`);
+            window.location.href = "index.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", renderCart);
+    </script>
+</body>
+
+</html>

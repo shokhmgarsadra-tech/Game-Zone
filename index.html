@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | فروشگاه تخصصی تجهیزات گیمینگ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo"><span>Zone</span>🎮 Game</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">خانه</a></li>
+                <li><a href="shop.html">فروشگاه</a></li>
+                <li><a href="compare.html">مقایسه تجهیزات</a></li>
+                <li><a href="#" onclick="openAdminPanel(event)">ورود به پنل مدیریت</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+                <a href="wishlist.html" class="icon-btn">❤️ <span id="wishlist-badge" class="badge">0</span></a>
+                <a href="cart.html" class="icon-btn">🛒 <span id="cart-badge" class="badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section glass-panel"
+        style="margin: 2rem auto; max-width: 1300px; padding: 4rem 2rem; text-align: center;">
+        <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 1rem;">به دنیای حرفه‌ای <span
+                style="color: var(--accent-neon);">گیمینگ</span> خوش آمدید</h1>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem;">جدیدترین کنسول‌ها، قطعات سخت‌افزاری
+            و اکسسوری‌های حرفه‌ای را با تضمین بهترین قیمت و سریع‌ترین ارسال تجربه کنید.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="shop.html" class="btn btn-primary">🎮 مشاهده فروشگاه</a>
+            <button onclick="openAddProductModal()" class="btn btn-outline">➕ افزودن محصول جدید</button>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <main style="max-width: 1300px; margin: 0 auto; padding: 2rem;">
+        <h2 style="border-right: 4px solid var(--accent-neon); padding-right: 10px;">🔥 پرفروش‌ترین محصولات</h2>
+        <div id="bestsellers-grid" class="product-grid"></div>
+    </main>
+
+    <!-- Modal افزودن محصول جدید -->
+    <div id="add-product-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: var(--accent-neon); margin-bottom: 1rem; text-align: center;">➕ افزودن محصول جدید</h3>
+            <form id="quick-add-form" onsubmit="handleQuickAddProduct(event)" novalidate>
+                <div>
+                    <label style="font-size: 0.85rem;">اسم محصول:</label>
+                    <input type="text" id="add-p-name" class="modal-input" placeholder="اسم محصول">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem;">عکس محصول (انتخاب فایل یا URL):</label>
+                    <input type="file" id="add-p-file" accept="image/*" class="modal-input"
+                        onchange="convertImageToBase64(this)">
+                    <input type="url" id="add-p-image" class="modal-input" style="margin-top:0;"
+                        placeholder="یا لینک تصویر https://...">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem;">برند محصول:</label>
+                    <input type="text" id="add-p-brand" class="modal-input" placeholder="برند محصول">
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem;">دسته‌بندی محصول:</label>
+                    <select id="add-p-category" class="modal-input">
+                        <option value="">انتخاب دسته‌بندی...</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div>
+                        <label style="font-size: 0.85rem;">تعداد موجودی:</label>
+                        <input type="number" id="add-p-stock" class="modal-input" placeholder="تعداد">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem;">قیمت (تومان):</label>
+                        <input type="number" id="add-p-price" class="modal-input" placeholder="قیمت">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                    <button type="button" onclick="closeAddProductModal()" class="btn btn-outline">انصراف</button>
+                    <button type="submit" class="btn btn-primary">ثبت محصول</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let uploadedImageBase64 = "";
+
+        function loadCategoriesIntoSelect() {
+            const categories = JSON.parse(localStorage.getItem('gz_categories')) || [];
+            const select = document.getElementById('add-p-category');
+            select.innerHTML = '<option value="">انتخاب دسته‌بندی...</option>' +
+                categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function openAddProductModal() {
+            loadCategoriesIntoSelect();
+            document.getElementById('add-product-modal').classList.add('active');
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('add-product-modal').classList.remove('active');
+            uploadedImageBase64 = "";
+        }
+
+        function convertImageToBase64(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    uploadedImageBase64 = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function handleQuickAddProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('add-p-name').value.trim();
+            const imageUrl = uploadedImageBase64 || document.getElementById('add-p-image').value.trim();
+            const brand = document.getElementById('add-p-brand').value.trim();
+            const category = document.getElementById('add-p-category').value;
+            const stock = document.getElementById('add-p-stock').value.trim();
+            const price = document.getElementById('add-p-price').value.trim();
+
+            // بررسی کامل خالی نبودن تمام فیلدها
+            if (!name || !imageUrl || !brand || !category || !stock || !price) {
+                app.showToast('فیلد خالی نذارید', 'error');
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('gz_products')) || [];
+            const newProduct = {
+                id: Date.now(),
+                name,
+                category,
+                brand,
+                platform: "متنوع",
+                price: parseFloat(price),
+                discount: 0,
+                stock: parseInt(stock),
+                rating: 5.0,
+                image: imageUrl,
+                description: "محصول جدید",
+                specifications: {},
+                featured: true,
+                bestseller: true,
+                newest: true
+            };
+
+            products.unshift(newProduct);
+            localStorage.setItem('gz_products', JSON.stringify(products));
+            app.showToast('محصول جدید با موفقیت اضافه شد.');
+            closeAddProductModal();
+            location.reload();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const products = JSON.parse(localStorage.getItem('gz_products')) || [];
+            const bestSellers = products.filter(p => p.bestseller).slice(0, 6);
+            const container = document.getElementById('bestsellers-grid');
+
+            container.innerHTML = bestSellers.map(p => {
+                const isFav = app.wishlist.includes(p.id);
+                return `
+          <div class="product-card">
+            <img src="${p.image}" alt="${p.name}" class="product-img">
+            <h3 class="product-title">${p.name}</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">${p.brand} | ${p.category}</p>
+            <div class="price-box">
+              <span class="current-price">${app.formatPrice(p.price * (1 - p.discount / 100))}</span>
+              ${p.discount > 0 ? `<span class="old-price">${app.formatPrice(p.price)}</span>` : ''}
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+              <button onclick="app.addToCart(${p.id})" class="btn btn-primary" style="flex: 1; justify-content: center;">افزودن به سبد خرید</button>
+              <button onclick="app.toggleWishlist(${p.id}, this)" class="wishlist-btn ${isFav ? 'active' : ''}">${isFav ? '❤️' : '🤍'}</button>
+            </div>
+          </div>
+        `;
+            }).join('');
+        });
+    </script>
+</body>
+
+</html>

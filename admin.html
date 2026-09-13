@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone | پنل مدیریت</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="padding: 2rem;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>🛠️ پنل مدیریت GameZone</h1>
+            <a href="index.html" class="btn btn-outline">🏠 بازگشت به سایت</a>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div class="glass-panel" style="padding: 1.5rem; text-align: center; cursor: pointer;"
+                onclick="switchTab('orders')">
+                <p>تعداد سفارش‌ها</p>
+                <h2 id="orders-count-stat" style="color: var(--accent-cyan); font-size: 2.2rem;">0</h2>
+            </div>
+            <div class="glass-panel" style="padding: 1.5rem; text-align: center; cursor: pointer;"
+                onclick="switchTab('products')">
+                <p>محصولات فعال</p>
+                <h2 id="total-products-stat" style="color: var(--accent-purple); font-size: 2.2rem;">0</h2>
+            </div>
+            <div class="glass-panel" style="padding: 1.5rem; text-align: center; cursor: pointer;"
+                onclick="switchTab('categories')">
+                <p>دسته‌بندی‌ها</p>
+                <h2 id="total-categories-stat" style="color: var(--accent-neon); font-size: 2.2rem;">0</h2>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+            <button onclick="switchTab('products')" id="tab-btn-products" class="btn btn-primary">📦 مدیریت
+                محصولات</button>
+            <button onclick="switchTab('categories')" id="tab-btn-categories" class="btn btn-outline">🏷️ مدیریت
+                دسته‌بندی‌ها</button>
+            <button onclick="switchTab('orders')" id="tab-btn-orders" class="btn btn-outline">📜 مدیریت سفارش‌ها (<span
+                    id="orders-badge">0</span>)</button>
+        </div>
+
+        <!-- Products Tab Section -->
+        <div id="tab-products-content" class="glass-panel" style="padding: 1.5rem;">
+            <h3>مدیریت محصولات</h3>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <thead>
+                        <tr style="text-align: right; border-bottom: 1px solid var(--border-color);">
+                            <th style="padding: 0.5rem;">شناسه</th>
+                            <th style="padding: 0.5rem;">تصویر</th>
+                            <th style="padding: 0.5rem;">نام</th>
+                            <th style="padding: 0.5rem;">برند</th>
+                            <th style="padding: 0.5rem;">دسته‌بندی</th>
+                            <th style="padding: 0.5rem;">قیمت</th>
+                            <th style="padding: 0.5rem;">موجودی</th>
+                            <th style="padding: 0.5rem;">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-products-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Categories Tab Section -->
+        <div id="tab-categories-content" class="glass-panel" style="padding: 1.5rem; display: none;">
+            <h3>🏷️ مدیریت دسته‌بندی‌ها</h3>
+            <div style="display: flex; gap: 0.5rem; margin: 1.5rem 0; max-width: 500px;">
+                <input type="text" id="new-category-input" class="modal-input" style="margin: 0;"
+                    placeholder="نام دسته‌بندی جدید...">
+                <button onclick="addNewCategory()" class="btn btn-primary">افزودن</button>
+            </div>
+            <div id="categories-list-container"></div>
+        </div>
+
+        <!-- Orders Tab Section -->
+        <div id="tab-orders-content" class="glass-panel" style="padding: 1.5rem; display: none;">
+            <h3>لیست سفارش‌های ثبت شده</h3>
+            <div id="orders-list-container" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Modal ویرایش محصول -->
+    <div id="edit-product-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: var(--accent-neon); margin-bottom: 1rem; text-align: center;">✏️ ویرایش مشخصات محصول</h3>
+            <form id="edit-product-form" onsubmit="saveEditedProduct(event)">
+                <input type="hidden" id="edit-p-old-id">
+                <div>
+                    <label style="font-size: 0.85rem;">شناسه محصول (قابل ویرایش):</label>
+                    <input type="number" id="edit-p-id" class="modal-input" required>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem;">نام محصول:</label>
+                    <input type="text" id="edit-p-name" class="modal-input" required>
+                </div>
+                <div>
+                    <label style="font-size: 0.85rem;">لینک تصویر:</label>
+                    <input type="text" id="edit-p-image" class="modal-input" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div>
+                        <label style="font-size: 0.85rem;">برند:</label>
+                        <input type="text" id="edit-p-brand" class="modal-input" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem;">دسته‌بندی:</label>
+                        <select id="edit-p-category" class="modal-input" required></select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div>
+                        <label style="font-size: 0.85rem;">قیمت (تومان):</label>
+                        <input type="number" id="edit-p-price" class="modal-input" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.85rem;">موجودی:</label>
+                        <input type="number" id="edit-p-stock" class="modal-input" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-outline">انصراف</button>
+                    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal ویرایش دسته‌بندی و انتخاب محصولات آن -->
+    <div id="edit-category-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 500px;">
+            <h3 style="color: var(--accent-neon); margin-bottom: 1rem; text-align: center;">✏️ ویرایش دسته‌بندی و تخصیص
+                محصولات</h3>
+            <input type="hidden" id="edit-cat-old-name">
+            <div>
+                <label style="font-size: 0.85rem;">نام دسته‌بندی:</label>
+                <input type="text" id="edit-cat-new-name" class="modal-input" placeholder="نام دسته‌بندی...">
+            </div>
+            <div>
+                <label style="font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">انتخاب محصولات این
+                    دسته‌بندی:</label>
+                <div id="cat-products-checkbox-container"
+                    style="max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                <button onclick="closeCategoryEditModal()" class="btn btn-outline">انصراف</button>
+                <button onclick="saveCategoryEdit()" class="btn btn-primary">ذخیره تغییرات</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
