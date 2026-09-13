@@ -184,3 +184,22 @@ function submitAdminPassword() {
         input.value = "";
     }
 }
+// رندر کردن محصولات ویژه در صفحه اصلی
+function renderHomeProducts() {
+  const homeContainer = document.getElementById('featured-products') || document.getElementById('products-grid');
+  if (!homeContainer) return;
+
+  const products = JSON.parse(localStorage.getItem('gz_products')) || [];
+  
+  homeContainer.innerHTML = products.map(product => `
+    <div class="product-card">
+      <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      <h3>${product.name}</h3>
+      <p class="price">${product.price.toLocaleString('fa-IR')} تومان</p>
+      <button onclick="addToCart(${product.id})" class="btn-primary">افزودن به سبد خرید</button>
+    </div>
+  `).join('');
+}
+
+// اجرا پس از بارگذاری کامل صفحه
+document.addEventListener('DOMContentLoaded', renderHomeProducts);
